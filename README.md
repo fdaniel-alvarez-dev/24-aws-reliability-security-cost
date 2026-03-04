@@ -1,6 +1,9 @@
-# 24-aws-reliability-security
+# 24-aws-reliability-security-cost
 
 A production-minded Database Reliability Engineering toolkit: HA lab, backup/PITR drills, and zero-downtime migration playbooks.
+
+Focus: cost
+
 
 ## Why this repo exists
 This is a portfolio-grade, runnable toolkit that demonstrates how I approach database reliability work:
