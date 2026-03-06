@@ -1,37 +1,78 @@
 # 24-aws-reliability-security-cost
 
-A production-minded Database Reliability Engineering toolkit: HA lab, backup/PITR drills, and zero-downtime migration playbooks.
+A portfolio-grade, runnable reliability + security toolkit focused on **cost-conscious database operations**:
+repeatable drills, deterministic guardrails, and safe validation workflows.
 
-Focus: cost
+This repository is intentionally generic (no employer branding). It demonstrates practical engineering habits:
+clear runbooks, reliable automation, and honest validation.
 
+## The 3 core problems this repo solves
+1) **Cost control without surprises:** guardrails that catch obvious cost regressions early (before they ship).
+2) **Recovery you can trust:** backup + restore drills that are verifiable and safe to rerun.
+3) **Operational clarity:** runbooks and SLO templates that make expectations explicit.
 
-## Why this repo exists
-This is a portfolio-grade, runnable toolkit that demonstrates how I approach database reliability work:
-safe changes, predictable operations, and recovery you can actually trust.
-
-## The top pains this repo addresses
-1) Making databases boring again—high availability, predictable performance, safe backups, and zero/low-downtime migrations with solid tooling and runbooks.
-2) Building a data platform people trust—reliable pipelines, clear ownership, data quality checks, and governance that scales without slowing delivery.
-3) Controlling cloud spend while meeting performance targets—capacity planning, right-sizing, and automation that prevents cost regressions.
-
-## Quick demo (local)
+## Quickstart (local lab)
 Prereqs: Docker + Docker Compose.
 
 ```bash
 make demo
 ```
 
-What you get:
-- a Postgres primary + replica setup
+You get:
+- Postgres primary + replica
 - PgBouncer for connection pooling
-- scripts to verify replication and run backup/restore drills
+- scripts to seed data, verify replication, and run backup/restore drills
 
-## Design decisions (high level)
-- Prefer drills and runbooks over “tribal knowledge”.
-- Keep the lab small but realistic (replication + pooling + backup).
-- Make failure modes explicit and testable.
+## Tests (two explicit modes)
 
-## What I would do next in production
-- Add PITR with WAL archiving + periodic restore tests.
-- Add SLOs (p95 query latency, replication lag) and alert thresholds.
-- Add automated migration checks (preflight, locks, backout plan).
+This repo supports exactly two test modes via `TEST_MODE`:
+
+- `TEST_MODE=demo` (default): **offline-only**, deterministic checks (no Docker, no cloud, no credentials)
+- `TEST_MODE=production`: **real integrations**, guarded by an explicit opt-in
+
+Run demo mode:
+
+```bash
+make test-demo
+```
+
+Run production mode (local integrations only):
+
+```bash
+make test-production
+```
+
+If production mode is missing tools, it will tell you exactly what to install and how to rerun.
+
+## Cost guardrails
+
+The file `tools/cost_guardrails.py` performs offline checks designed to catch common cost footguns:
+
+- reproducibility risks (floating image tags)
+- missing or weak cost-attribution signals in IaC examples
+- missing repo documentation that supports operational ownership
+
+Generate a JSON report:
+
+```bash
+python3 tools/cost_guardrails.py --format json --out artifacts/cost_guardrails.json
+```
+
+## Sponsorship and contact
+
+Sponsored by:
+CloudForgeLabs  
+https://cloudforgelabs.ainextstudios.com/  
+support@ainextstudios.com
+
+Built by:
+Freddy D. Alvarez  
+https://www.linkedin.com/in/freddy-daniel-alvarez/
+
+For job opportunities, contact:
+it.freddy.alvarez@gmail.com
+
+## License
+
+Personal, educational, and non-commercial use is free. Commercial use requires paid permission.
+See `LICENSE` and `COMMERCIAL_LICENSE.md`.
